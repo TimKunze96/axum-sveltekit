@@ -1,0 +1,29 @@
+# The hot-reloading API for the compose dev profile (docker-compose.yml,
+# service api-dev): the checkout is bind-mounted and watchexec rebuilds
+# and restarts `cargo run` whenever a source, migration or manifest file
+# changes. Polling, because bind mounts get no file events inside the
+# Docker VM. The target directory and the cargo registry live in named
+# volumes so rebuilds are incremental and the host's own target/ is
+# never touched.
+
+FROM rust:1-bookworm
+
+# cargo-watch is archived; watchexec is its maintained successor. The
+# release is pinned and installed from its .deb for the container's CPU;
+# the musl build is static, the gnu one needs a newer glibc than bookworm.
+ARG WATCHEXEC_VERSION=2.7.2
+RUN set -eu; \
+    case "$(dpkg --print-architecture)" in \
+      amd64) arch=x86_64 ;; \
+      arm64) arch=aarch64 ;; \
+      *) echo "unsupported architecture" >&2; exit 1 ;; \
+    esac; \
+    deb="watchexec-${WATCHEXEC_VERSION}-${arch}-unknown-linux-musl.deb"; \
+    curl -fsSL -o "/tmp/$deb" "https://github.com/watchexec/watchexec/releases/download/v${WATCHEXEC_VERSION}/$deb"; \
+    dpkg -i "/tmp/$deb"; \
+    rm "/tmp/$deb"
+
+WORKDIR /app
+CMD ["watchexec", "--poll", "1s", "--restart", "--stop-signal", "SIGTERM", \
+     "--watch", "src", "--watch", "migrations", "--watch", "Cargo.toml", "--watch", "Cargo.lock", \
+     "--", "cargo", "run"]

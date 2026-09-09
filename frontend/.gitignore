@@ -1,0 +1,23 @@
+node_modules
+
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env: the one .env lives in the repository root (vite.config.ts points
+# envDir there); nothing env-shaped belongs in this directory.
+.env
+.env.*
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+test-results/

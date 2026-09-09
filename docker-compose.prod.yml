@@ -1,0 +1,69 @@
+# Production overrides: `docker compose -f docker-compose.yml
+# -f docker-compose.prod.yml up -d`. The api and frontend images are
+# built by the deploy workflow (.github/workflows/deploy.yml) and pulled
+# from GHCR at IMAGE_TAG (the deployed commit sha, written to .env by
+# deploy/deploy.sh together with IMAGE_NAMESPACE; `latest` when unset)
+# instead of being built on the box. Caddy takes the public ports and TLS
+# for the domain in deploy/Caddyfile; the api runs in production mode;
+# Postgres needs POSTGRES_PASSWORD set in .env, and APP_URL the public
+# origin (https://example.com) with APP_HOST its host (example.com) for
+# Caddy.
+
+services:
+  postgres:
+    ports: !reset []
+    # Sized for a small box shared with the API: a quarter of 4 GB for
+    # shared buffers, the rest of the page cache as the planner's
+    # estimate, SSD cost model, and a slow-statement log.
+    command:
+      - postgres
+      - -c
+      - shared_buffers=1GB
+      - -c
+      - effective_cache_size=2GB
+      - -c
+      - work_mem=16MB
+      - -c
+      - maintenance_work_mem=128MB
+      - -c
+      - random_page_cost=1.1
+      - -c
+      - effective_io_concurrency=200
+      - -c
+      - max_connections=60
+      - -c
+      - checkpoint_completion_target=0.9
+      - -c
+      - max_wal_size=1GB
+      - -c
+      - jit=off
+      - -c
+      - log_min_duration_statement=250ms
+
+  api:
+    build: !reset null
+    image: ${IMAGE_NAMESPACE:-ghcr.io/example/starter}/api:${IMAGE_TAG:-latest}
+    environment:
+      APP_ENV: production
+      APP_URL: ${APP_URL}
+
+  frontend:
+    build: !reset null
+    image: ${IMAGE_NAMESPACE:-ghcr.io/example/starter}/frontend:${IMAGE_TAG:-latest}
+    environment:
+      ORIGIN: ${APP_URL}
+
+  proxy:
+    environment:
+      APP_HOST: ${APP_HOST}
+    ports: !override
+      - "80:80"
+      - "443:443"
+    volumes: !override
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  caddy-data:
+  caddy-config:

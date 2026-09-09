@@ -1,0 +1,9 @@
+# The composed shared origin on :8787: /api goes to the API container,
+# everything else to the SvelteKit node server (the same rule as the
+# Vite proxy in frontend/vite.config.ts and the production Caddyfile).
+
+:8787 {
+	encode zstd gzip
+	reverse_proxy /api/* api:3000
+	reverse_proxy frontend:3000
+}

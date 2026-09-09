@@ -1,0 +1,13 @@
+/target
+/storage
+.env
+node_modules
+.DS_Store
+.claude/worktrees
+.claude/reference
+/.svelte-kit
+
+# Agent skill files the shadcn-svelte CLI drops into the frontend.
+frontend/.agents
+frontend/.claude
+frontend/skills-lock.json

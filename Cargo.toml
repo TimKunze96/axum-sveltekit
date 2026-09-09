@@ -1,0 +1,54 @@
+[package]
+name = "starter"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "Starter: an Axum + SvelteKit application with session authentication"
+default-run = "starter"
+
+[dependencies]
+argon2 = "0.5"
+axum = "0.8"
+dotenvy = "0.15"
+# Password reset mail over SMTP (STARTTLS, rustls); without SMTP_HOST the
+# mailer logs messages instead (src/mail.rs).
+lettre = { version = "0.11", default-features = false, features = [
+    "builder",
+    "smtp-transport",
+    "tokio1-rustls-tls",
+] }
+rand = "0.10"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.11"
+sqlx = { version = "0.9", features = [
+    "runtime-tokio",
+    "tls-rustls",
+    "postgres",
+    "migrate",
+] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+# Every wire type derives `TS` and `cargo test` writes the TypeScript
+# bindings to frontend/src/lib/api/types (TS_RS_EXPORT_DIR in
+# .cargo/config.toml); CI fails when the committed bindings are stale.
+# `no-serde-warnings`: ts-rs warns on serde attributes it does not
+# understand (`deserialize_with`, ...) although they leave the wire shape
+# alone; check the generated type when adding one.
+ts-rs = { version = "12", features = ["no-serde-warnings"] }
+
+[dev-dependencies]
+http-body-util = "0.1"
+tower = { version = "0.5", features = ["util"] }
+
+[[bin]]
+name = "starter"
+path = "src/main.rs"
+
+# The Axum handlers return `Result<_, Response>`; the Response error is
+# large by design (it carries a full HTTP response), so this stylistic
+# lint fires across every handler. Allowed package-wide so a newer
+# clippy's `-D warnings` in CI matches local.
+[lints.clippy]
+result_large_err = "allow"

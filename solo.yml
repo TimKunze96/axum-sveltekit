@@ -1,0 +1,62 @@
+name: starter
+icon: null
+processes:
+  Postgres:
+    command: docker compose up postgres
+    working_dir: null
+    auto_start: true
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
+  Api:
+    command: cargo run
+    working_dir: null
+    auto_start: true
+    auto_restart: true
+    restart_when_changed:
+    - src
+    - Cargo.toml
+    - migrations
+    env: {}
+  Frontend:
+    command: npm run dev
+    working_dir: frontend
+    auto_start: true
+    auto_restart: true
+    restart_when_changed: []
+    env: {}
+  Stack:
+    command: docker compose up --build
+    working_dir: null
+    auto_start: false
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
+  DevStack:
+    command: docker compose --profile dev up --build frontend-dev
+    working_dir: null
+    auto_start: false
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
+  Tests:
+    command: cargo test
+    working_dir: null
+    auto_start: false
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
+  Clippy:
+    command: cargo clippy --all-targets -- -D warnings
+    working_dir: null
+    auto_start: false
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
+  Frontend checks:
+    command: npm run check && npm run lint && npm run format:check && npm test
+    working_dir: frontend
+    auto_start: false
+    auto_restart: false
+    restart_when_changed: []
+    env: {}

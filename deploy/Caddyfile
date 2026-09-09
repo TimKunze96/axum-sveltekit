@@ -1,0 +1,22 @@
+# Production shared origin: /api goes to Axum, everything else to the
+# SvelteKit node server (the same rule as the Vite proxy in
+# frontend/vite.config.ts).
+#
+# Used by docker-compose.prod.yml: the api and frontend containers are
+# the upstreams, and Caddy holds the TLS certificate for the domain,
+# APP_HOST from .env (the host of APP_URL).
+
+{$APP_HOST} {
+	encode zstd gzip
+	header Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+	reverse_proxy /api/* api:3000
+	reverse_proxy frontend:3000
+
+	# Access log (json to stdout, captured by Docker's rotated json-file
+	# driver).
+	log {
+		output stdout
+		format json
+	}
+}

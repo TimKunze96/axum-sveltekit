@@ -1,0 +1,24 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn",
+    "pedantic": "off",
+    "style": "off"
+  },
+  "rules": {
+    // A structure preference, not a defect: hoisting every closure out
+    // of its component would cost it the props it closes over.
+    "unicorn/consistent-function-scoping": "off"
+  },
+  "overrides": [
+    {
+      // The ambient module marker SvelteKit's app.d.ts needs to augment
+      // the global App namespace.
+      "files": ["src/app.d.ts"],
+      "rules": { "unicorn/require-module-specifiers": "off" }
+    }
+  ],
+  "ignorePatterns": [".svelte-kit", "build", "node_modules", "src/lib/api/types"]
+}

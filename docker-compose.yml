@@ -1,0 +1,150 @@
+# The one-command dev stack: `docker compose up --build` brings up
+# Postgres and serves the whole app on the fixed shared origin
+# http://localhost:8787 (Caddy routing to the API and the SvelteKit
+# server, so cookies stay same-origin). `docker compose up -d postgres`
+# alone still serves the native dev workflow (cargo run + npm run dev).
+#
+# The `dev` profile (`docker compose --profile dev up frontend-dev`) is
+# the hot-reloading variant on the same origin: api-dev recompiles and
+# restarts the API on every Rust change, frontend-dev is the Vite dev
+# server. Stop the full stack first; both want :8787.
+
+# Cap every container's json-file log so an unrotated stdout cannot fill
+# the disk.
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "20m"
+    max-file: "5"
+
+services:
+  postgres:
+    logging: *default-logging
+    image: postgres:17
+    container_name: starter-postgres
+    environment:
+      POSTGRES_USER: starter
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-starter}
+      POSTGRES_DB: starter
+    ports:
+      - "127.0.0.1:5436:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U starter -d starter"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  api:
+    logging: *default-logging
+    build: .
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: postgres://starter:${POSTGRES_PASSWORD:-starter}@postgres:5432/starter
+      BIND_ADDR: 0.0.0.0:3000
+      # A dev stack: cookies usable over http.
+      APP_ENV: ${APP_ENV:-local}
+      APP_NAME: ${APP_NAME:-Starter}
+      APP_URL: ${APP_URL:-http://localhost:8787}
+      RUST_LOG: ${RUST_LOG:-info}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    logging: *default-logging
+    build: ./frontend
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      ORIGIN: ${APP_URL:-http://localhost:8787}
+      PUBLIC_APP_NAME: ${APP_NAME:-Starter}
+      AXUM_URL: http://api:3000
+      PORT: "3000"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  # Hot-reloading API: the checkout is bind-mounted and watchexec
+  # (Dockerfile.dev) reruns `cargo run` on every change under src/,
+  # migrations/ or the manifest. The first build compiles everything
+  # (a few minutes); the target and registry volumes keep later ones
+  # incremental. Same env as `api`, so the frontend-dev proxy and the SSR
+  # loads reach it at api-dev:3000.
+  api-dev:
+    logging: *default-logging
+    profiles: ["dev"]
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: postgres://starter:${POSTGRES_PASSWORD:-starter}@postgres:5432/starter
+      BIND_ADDR: 0.0.0.0:3000
+      APP_ENV: ${APP_ENV:-local}
+      APP_NAME: ${APP_NAME:-Starter}
+      APP_URL: ${APP_URL:-http://localhost:8787}
+      RUST_LOG: ${RUST_LOG:-info}
+      CARGO_TERM_COLOR: always
+    volumes:
+      - .:/app
+      - api-dev-target:/app/target
+      - api-dev-registry:/usr/local/cargo/registry
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Hot-reloading dev frontend against api-dev, the solo `DevStack`
+  # command: a drop-in for the stack on the same origin
+  # http://localhost:8787. Vite binds the port itself and its own proxy
+  # sends backend paths to the api-dev container, so no Caddy is
+  # involved. The source tree is bind-mounted; node_modules lives in a
+  # container-local volume because the host's native binaries do not run
+  # on linux. `npm ci` rather than `npm install`: the container's npm
+  # would otherwise rewrite the bind-mounted package-lock.json in its own
+  # dialect on every start.
+  frontend-dev:
+    logging: *default-logging
+    profiles: ["dev"]
+    image: node:22
+    working_dir: /app/frontend
+    command: sh -c "npm ci --no-audit --no-fund && npm run dev -- --host 0.0.0.0 --port 8787"
+    environment:
+      AXUM_URL: http://api-dev:3000
+      PUBLIC_APP_NAME: ${APP_NAME:-Starter}
+      # Bind-mounted source gets no file events inside the VM; poll.
+      VITE_POLL_WATCH: "1"
+    volumes:
+      - ./frontend:/app/frontend
+      - frontend-dev-modules:/app/frontend/node_modules
+    ports:
+      - "127.0.0.1:8787:8787"
+    depends_on:
+      - api-dev
+    restart: unless-stopped
+
+  proxy:
+    logging: *default-logging
+    image: caddy:2
+    ports:
+      - "127.0.0.1:8787:8787"
+    volumes:
+      - ./deploy/Caddyfile.dev:/etc/caddy/Caddyfile:ro
+    depends_on:
+      - api
+      - frontend
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  frontend-dev-modules:
+  api-dev-target:
+  api-dev-registry:
