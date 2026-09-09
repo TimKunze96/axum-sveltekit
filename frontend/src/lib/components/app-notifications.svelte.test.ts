@@ -19,7 +19,7 @@ describe('app notifications', () => {
 
     const toast = page.getByText('Signed in').element().closest('[data-sonner-toast]');
     expect(toast).toHaveAttribute('data-type', 'success');
-    expect(toast).toHaveTextContent('Welcome back, Ada!');
+    expect(toast).toMatchTextContent('Welcome back, Ada!');
   });
 
   it('toasts an error flash as an error', async () => {
