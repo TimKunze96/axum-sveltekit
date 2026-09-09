@@ -16,6 +16,10 @@ updates:
       interval: weekly
     open-pull-requests-limit: 10
     groups:
+      # The vitest family moves in lockstep; a major bump of one alone
+      # cannot install (peer ranges), so they arrive as one PR.
+      vitest:
+        patterns: ["vitest", "@vitest/*", "vitest-browser-*"]
       frontend-dependencies:
         patterns: ["*"]
         update-types: [minor, patch]
