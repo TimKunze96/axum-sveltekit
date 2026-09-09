@@ -2,8 +2,7 @@
 //! crate defaults to), and the password rules.
 
 use argon2::Argon2;
-use argon2::password_hash::{PasswordHash, PasswordHasher, PasswordVerifier, SaltString};
-use rand::RngExt;
+use argon2::password_hash::{PasswordHasher, PasswordVerifier};
 
 use super::FieldError;
 
@@ -17,26 +16,19 @@ pub const MAX_LENGTH: usize = 512;
 /// a login attempt is unknown, so both outcomes take the same time.
 pub const DUMMY_HASH: &str = "$argon2id$v=19$m=19456,t=2,p=1$c3RhcnRlci1kdW1teS1zYWx0$o1p9Q3Z0aIhWQpSXVwKb0y2n9hR2yTtmqQ8dJqNUM5c";
 
-/// The recommended salt size for Argon2.
-const SALT_BYTES: usize = 16;
-
+/// The PHC string of the password under a fresh random salt.
 pub fn hash(password: &str) -> Result<String, argon2::password_hash::Error> {
-    let mut bytes = [0u8; SALT_BYTES];
-    rand::rng().fill(&mut bytes[..]);
-    let salt = SaltString::encode_b64(&bytes)?;
     Ok(Argon2::default()
-        .hash_password(password.as_bytes(), &salt)?
+        .hash_password(password.as_bytes())?
         .to_string())
 }
 
 /// Whether the password produced the stored hash; a malformed hash is a
 /// mismatch rather than an error.
 pub fn verify(hash: &str, password: &str) -> bool {
-    PasswordHash::new(hash).is_ok_and(|parsed| {
-        Argon2::default()
-            .verify_password(password.as_bytes(), &parsed)
-            .is_ok()
-    })
+    Argon2::default()
+        .verify_password(password.as_bytes(), hash)
+        .is_ok()
 }
 
 /// The rules a new password must meet, as field errors.
@@ -81,7 +73,12 @@ mod tests {
 
     #[test]
     fn the_dummy_hash_is_well_formed_and_matches_nothing_useful() {
-        assert!(PasswordHash::new(DUMMY_HASH).is_ok());
+        // A malformed string fails to parse; the dummy parses and then
+        // simply mismatches, like any real hash would.
+        assert!(
+            argon2::password_hash::phc::PasswordHash::new(DUMMY_HASH).is_ok(),
+            "the dummy hash parses"
+        );
         assert!(!verify(DUMMY_HASH, ""));
         assert!(!verify(DUMMY_HASH, "password"));
     }
