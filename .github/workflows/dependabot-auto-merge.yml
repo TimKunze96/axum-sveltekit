@@ -1,10 +1,11 @@
 name: Dependabot auto-merge
 
-# Enables auto-merge on Dependabot PRs so they land once CI is green.
-# Requires "Allow auto-merge" on the repo and branch protection on main
-# with the CI checks required. Major bumps are left for manual review,
-# and so is a minor bump of a 0.x package: for those crates the minor
-# is the breaking version (argon2 0.5 to 0.6 changed its whole API).
+# Merges Dependabot PRs once CI is green, without needing GitHub's own
+# auto-merge or branch protection (private repositories on the free plan
+# have neither): the job waits for the PR's checks and squash-merges when
+# they all pass. Major bumps are left for manual review, and so is a
+# minor bump of a 0.x package: for those crates the minor is the breaking
+# version (argon2 0.5 to 0.6 changed its whole API).
 on: pull_request_target
 
 permissions:
@@ -15,18 +16,24 @@ jobs:
   auto-merge:
     if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    # Long enough for the CI run the job waits on.
+    timeout-minutes: 40
     steps:
       - name: Dependabot metadata
         id: meta
         uses: dependabot/fetch-metadata@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Enable auto-merge (patch, or minor above 0.x)
+      - name: Merge once the checks pass (patch, or minor above 0.x)
         if: >-
           steps.meta.outputs.update-type == 'version-update:semver-patch' ||
           (steps.meta.outputs.update-type == 'version-update:semver-minor' &&
            !startsWith(steps.meta.outputs.previous-version, '0.'))
-        run: gh pr merge --auto --squash "${{ github.event.pull_request.html_url }}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.pull_request.html_url }}
+        run: |
+          # CI starts a moment after this job; give it time to register.
+          sleep 60
+          gh pr checks "$PR" --watch --fail-fast --required=false
+          gh pr merge --squash --delete-branch "$PR"
