@@ -7,7 +7,7 @@ description = "Starter: an Axum + SvelteKit application with session authenticat
 default-run = "starter"
 
 [dependencies]
-argon2 = "0.5"
+argon2 = "0.6"
 axum = "0.8"
 dotenvy = "0.15"
 # Password reset mail over SMTP (STARTTLS, rustls); without SMTP_HOST the
