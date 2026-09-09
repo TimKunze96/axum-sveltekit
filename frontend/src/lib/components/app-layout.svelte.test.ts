@@ -28,7 +28,9 @@ describe('app layout', () => {
   it('opens the account menu from the sidebar footer', async () => {
     render(AppLayout, { user, children: content });
 
-    await expect.element(page.getByTestId('sidebar-menu-button')).toHaveTextContent('Ada Lovelace');
+    await expect
+      .element(page.getByTestId('sidebar-menu-button'))
+      .toMatchTextContent('Ada Lovelace');
     await page.getByTestId('sidebar-menu-button').click();
     await expect.element(page.getByText('ada@example.com')).toBeVisible();
     await expect
