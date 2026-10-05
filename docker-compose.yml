@@ -62,7 +62,10 @@ services:
       - path: .env
         required: false
     environment:
-      ORIGIN: ${APP_URL:-http://localhost:8787}
+      # adapter-node derives each request's origin from the headers Caddy
+      # forwards, so one image serves whatever APP_URL is.
+      PROTOCOL_HEADER: x-forwarded-proto
+      HOST_HEADER: x-forwarded-host
       PUBLIC_APP_NAME: ${APP_NAME:-Starter}
       AXUM_URL: http://api:3000
       PORT: "3000"

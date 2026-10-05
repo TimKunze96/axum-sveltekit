@@ -1,7 +1,7 @@
 // The signed-in account, resolved once per request by hooks.server.ts
 // (which also applies the route guard) and handed to the pages as
 // `locals.user`.
-import type { User } from '$lib/api';
+import type { User } from '#lib/api/index.js';
 
 export async function currentUser(fetch: typeof globalThis.fetch): Promise<User | null> {
   // A 401 is a guest; an unreachable API renders as guest too rather

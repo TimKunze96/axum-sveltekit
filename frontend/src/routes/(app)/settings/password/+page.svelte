@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Heading from '$lib/components/heading.svelte';
-  import PasswordForm from '$lib/components/password-form.svelte';
-  import SettingsLayout from '$lib/components/settings-layout.svelte';
-  import { pageTitle } from '$lib/title';
+  import Heading from '#lib/components/heading.svelte';
+  import PasswordForm from '#lib/components/password-form.svelte';
+  import SettingsLayout from '#lib/components/settings-layout.svelte';
+  import { pageTitle } from '#lib/title.js';
 </script>
 
 <svelte:head>

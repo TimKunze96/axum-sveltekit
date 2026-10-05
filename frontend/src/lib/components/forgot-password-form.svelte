@@ -1,12 +1,12 @@
 <script lang="ts">
   // Asks the API to mail a reset link; the answer is the same whether or
   // not the email is registered.
-  import { firstErrors, follow, submit, type Success } from '$lib/client';
-  import { LOGIN_PATH } from '$lib/login';
-  import type { ForgotPasswordInput } from '$lib/types';
-  import { Button } from '$lib/components/ui/button';
-  import { Input } from '$lib/components/ui/input';
-  import { Label } from '$lib/components/ui/label';
+  import { firstErrors, follow, submit, type Success } from '#lib/client.js';
+  import { LOGIN_PATH } from '#lib/login.js';
+  import type { ForgotPasswordInput } from '#lib/types.js';
+  import { Button } from '#lib/components/ui/button/index.js';
+  import { Input } from '#lib/components/ui/input/index.js';
+  import { Label } from '#lib/components/ui/label/index.js';
   import InputError from './input-error.svelte';
 
   let {

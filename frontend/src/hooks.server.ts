@@ -1,6 +1,7 @@
-import { redirect, type Handle, type HandleFetch } from '@sveltejs/kit';
-import { env } from '$env/dynamic/private';
-// Relative on purpose: a `$lib` import from the server hooks breaks
+import { redirect } from '@sveltejs/kit';
+import type { Handle, HandleFetch } from '@sveltejs/kit/hooks';
+import { AXUM_URL } from '$app/env/private';
+// Relative on purpose: a `#lib` import from the server hooks breaks
 // SvelteKit's hooks loading inside vitest's browser mode (a console
 // TypeError on every client test run).
 import type { User } from './lib/api';
@@ -60,7 +61,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 export const handleFetch: HandleFetch = async ({ event, request, fetch }) => {
   const url = new URL(request.url);
   if (url.origin === event.url.origin && url.pathname.startsWith('/api')) {
-    const axum = env.AXUM_URL ?? AXUM_DEFAULT_URL;
+    const axum = AXUM_URL ?? AXUM_DEFAULT_URL;
     request = new Request(new URL(url.pathname + url.search, axum), request);
     const cookie = event.request.headers.get('cookie');
     if (cookie) {

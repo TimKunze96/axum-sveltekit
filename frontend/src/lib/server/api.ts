@@ -1,5 +1,5 @@
 import { error, redirect } from '@sveltejs/kit';
-import { LOGIN_PATH } from '$lib/login';
+import { LOGIN_PATH } from '#lib/login.js';
 
 /** The API's fallback sentence when its error body carries no message. */
 const UNAVAILABLE_MESSAGE = 'The server is unavailable right now.';

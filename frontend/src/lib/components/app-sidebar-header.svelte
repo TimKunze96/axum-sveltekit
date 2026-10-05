@@ -1,7 +1,7 @@
 <script lang="ts">
   // The inset header: the sidebar toggle and the breadcrumbs.
-  import type { BreadcrumbItem } from '$lib/types';
-  import * as Sidebar from '$lib/components/ui/sidebar';
+  import type { BreadcrumbItem } from '#lib/types.js';
+  import * as Sidebar from '#lib/components/ui/sidebar/index.js';
   import Breadcrumbs from './breadcrumbs.svelte';
 
   let { breadcrumbs = [] }: { breadcrumbs?: BreadcrumbItem[] } = $props();

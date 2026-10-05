@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { PageProps } from './$types';
-  import Heading from '$lib/components/heading.svelte';
-  import ResetPasswordForm from '$lib/components/reset-password-form.svelte';
-  import { pageTitle } from '$lib/title';
+  import Heading from '#lib/components/heading.svelte';
+  import ResetPasswordForm from '#lib/components/reset-password-form.svelte';
+  import { pageTitle } from '#lib/title.js';
 
   let { data }: PageProps = $props();
 </script>

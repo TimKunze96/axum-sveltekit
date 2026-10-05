@@ -1,9 +1,9 @@
 <script lang="ts">
   // The public landing page: the pitch and the way in.
   import { ArrowRight } from '@lucide/svelte';
-  import { APP_NAME } from '$lib/app';
-  import { HOME_PATH, LOGIN_PATH, REGISTER_PATH } from '$lib/login';
-  import { buttonVariants } from '$lib/components/ui/button';
+  import { APP_NAME } from '#lib/app.js';
+  import { HOME_PATH, LOGIN_PATH, REGISTER_PATH } from '#lib/login.js';
+  import { buttonVariants } from '#lib/components/ui/button/index.js';
 
   let { signedIn }: { signedIn: boolean } = $props();
 </script>

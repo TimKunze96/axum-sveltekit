@@ -1,8 +1,8 @@
 <script lang="ts">
   // Light, dark or follow the system.
   import { Monitor, Moon, Sun } from '@lucide/svelte';
-  import { getAppearance, updateAppearance } from '$lib/appearance.svelte';
-  import type { Appearance, Icon } from '$lib/types';
+  import { getAppearance, updateAppearance } from '#lib/appearance.svelte.js';
+  import type { Appearance, Icon } from '#lib/types.js';
 
   const tabs: { value: Appearance; icon: Icon; label: string }[] = [
     { value: 'light', icon: Sun, label: 'Light' },

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { APP_NAME } from '$lib/app';
+  import { APP_NAME } from '#lib/app.js';
   import AppLogoIcon from './app-logo-icon.svelte';
 </script>
 

@@ -1,11 +1,11 @@
 // The app's identity, from the one root .env (PUBLIC_APP_NAME): the
 // display name and the cookie prefix derived from it. The API derives
 // the same prefix from APP_NAME in src/config.rs; keep both in step.
-import { env } from '$env/dynamic/public';
+import { PUBLIC_APP_NAME } from '$app/env/public';
 
 export const DEFAULT_APP_NAME = 'Starter';
 
-export const APP_NAME: string = env.PUBLIC_APP_NAME?.trim() || DEFAULT_APP_NAME;
+export const APP_NAME: string = PUBLIC_APP_NAME?.trim() || DEFAULT_APP_NAME;
 
 /**
  * Lowercase letters and digits, every other run of characters a single

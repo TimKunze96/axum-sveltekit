@@ -5,8 +5,8 @@
   // alone.
   import './layout.css';
   import type { Snippet } from 'svelte';
-  import { initializeTheme } from '$lib/appearance.svelte';
-  import AppNotifications from '$lib/components/app-notifications.svelte';
+  import { initializeTheme } from '#lib/appearance.svelte.js';
+  import AppNotifications from '#lib/components/app-notifications.svelte';
   import type { LayoutData } from './$types';
 
   let { data, children }: { data: LayoutData; children: Snippet } = $props();

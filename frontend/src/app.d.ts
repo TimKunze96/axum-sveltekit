@@ -5,15 +5,15 @@ declare global {
     // interface Error {}
     interface Locals {
       /** The appearance cookie's choice for this request (see $lib/appearance). */
-      appearance: import('$lib/types').Appearance;
+      appearance: import('#lib/types.js').Appearance;
       /** The signed-in account, resolved by hooks.server.ts on every request. */
-      user: import('$lib/types').User | null;
+      user: import('#lib/types.js').User | null;
     }
     interface PageData {
       /** Who is signed in, on every page; null for a guest. */
-      user: import('$lib/types').User | null;
+      user: import('#lib/types.js').User | null;
       /** The breadcrumb trail a page declares for the app header. */
-      breadcrumbs?: import('$lib/types').BreadcrumbItem[];
+      breadcrumbs?: import('#lib/types.js').BreadcrumbItem[];
     }
     // interface PageState {}
     // interface Platform {}

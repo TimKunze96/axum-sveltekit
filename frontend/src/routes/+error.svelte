@@ -3,7 +3,7 @@
   // API's message arrives as page.error.message (apiGet turns non-OK
   // responses into error(status, message)).
   import { page } from '$app/state';
-  import { APP_NAME } from '$lib/app';
+  import { APP_NAME } from '#lib/app.js';
 
   const status = $derived(page.status);
   const message = $derived(page.error?.message ?? 'Something went wrong.');

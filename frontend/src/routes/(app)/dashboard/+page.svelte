@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageProps } from './$types';
-  import Heading from '$lib/components/heading.svelte';
-  import { pageTitle } from '$lib/title';
+  import Heading from '#lib/components/heading.svelte';
+  import { pageTitle } from '#lib/title.js';
 
   let { data }: PageProps = $props();
 </script>

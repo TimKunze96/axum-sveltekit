@@ -1,12 +1,12 @@
 <script lang="ts">
   // The registration form: posts to the API and shows its field errors
   // inline.
-  import { firstErrors, follow, submit, type Success } from '$lib/client';
-  import { LOGIN_PATH } from '$lib/login';
-  import type { Registration } from '$lib/types';
-  import { Button } from '$lib/components/ui/button';
-  import { Input } from '$lib/components/ui/input';
-  import { Label } from '$lib/components/ui/label';
+  import { firstErrors, follow, submit, type Success } from '#lib/client.js';
+  import { LOGIN_PATH } from '#lib/login.js';
+  import type { Registration } from '#lib/types.js';
+  import { Button } from '#lib/components/ui/button/index.js';
+  import { Input } from '#lib/components/ui/input/index.js';
+  import { Label } from '#lib/components/ui/label/index.js';
   import InputError from './input-error.svelte';
 
   let {

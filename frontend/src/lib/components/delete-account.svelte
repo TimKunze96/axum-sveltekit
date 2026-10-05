@@ -1,10 +1,10 @@
 <script lang="ts">
   // The account deletion behind a confirmation and the password.
-  import { firstErrors, follow, submit, type Success } from '$lib/client';
-  import * as AlertDialog from '$lib/components/ui/alert-dialog';
-  import { Button, buttonVariants } from '$lib/components/ui/button';
-  import { Input } from '$lib/components/ui/input';
-  import { Label } from '$lib/components/ui/label';
+  import { firstErrors, follow, submit, type Success } from '#lib/client.js';
+  import * as AlertDialog from '#lib/components/ui/alert-dialog/index.js';
+  import { Button, buttonVariants } from '#lib/components/ui/button/index.js';
+  import { Input } from '#lib/components/ui/input/index.js';
+  import { Label } from '#lib/components/ui/label/index.js';
   import Heading from './heading.svelte';
   import InputError from './input-error.svelte';
 

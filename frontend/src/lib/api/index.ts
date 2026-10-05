@@ -1,4 +1,4 @@
-// The generated bindings under one import: `import type { User } from '$lib/api'`.
+// The generated bindings under one import: `import type { User } from '#lib/api/index.js'`.
 // Regenerate with `cargo test` in the repository root.
 export type { ApiError } from './types/ApiError';
 export type { Credentials } from './types/Credentials';

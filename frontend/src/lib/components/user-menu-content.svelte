@@ -1,8 +1,8 @@
 <script lang="ts">
   // The account menu: who is signed in, settings, and logging out.
   import { LogOut, Settings } from '@lucide/svelte';
-  import type { User } from '$lib/types';
-  import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+  import type { User } from '#lib/types.js';
+  import * as DropdownMenu from '#lib/components/ui/dropdown-menu/index.js';
   import UserInfo from './user-info.svelte';
 
   let { user }: { user: User } = $props();
