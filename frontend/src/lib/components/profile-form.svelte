@@ -1,11 +1,11 @@
 <script lang="ts">
   // The name and email, saved through the API.
   import { untrack } from 'svelte';
-  import { firstErrors, follow, submit, type Success } from '$lib/client';
-  import type { ProfileInput, User } from '$lib/types';
-  import { Button } from '$lib/components/ui/button';
-  import { Input } from '$lib/components/ui/input';
-  import { Label } from '$lib/components/ui/label';
+  import { firstErrors, follow, submit, type Success } from '#lib/client.js';
+  import type { ProfileInput, User } from '#lib/types.js';
+  import { Button } from '#lib/components/ui/button/index.js';
+  import { Input } from '#lib/components/ui/input/index.js';
+  import { Label } from '#lib/components/ui/label/index.js';
   import InputError from './input-error.svelte';
 
   let {

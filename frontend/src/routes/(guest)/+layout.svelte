@@ -1,8 +1,8 @@
 <script lang="ts">
   // The guest shell: a centered card with the logo above it.
   import type { Snippet } from 'svelte';
-  import { APP_NAME } from '$lib/app';
-  import AppLogoIcon from '$lib/components/app-logo-icon.svelte';
+  import { APP_NAME } from '#lib/app.js';
+  import AppLogoIcon from '#lib/components/app-logo-icon.svelte';
 
   let { children }: { children: Snippet } = $props();
 </script>

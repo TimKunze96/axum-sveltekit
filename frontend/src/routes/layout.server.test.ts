@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { FLASH_COOKIE } from '$lib/app';
+import { FLASH_COOKIE } from '#lib/app.js';
 import { load } from './+layout.server';
 
 const user = { id: 1, name: 'Ada', email: 'ada@example.com', is_admin: false };

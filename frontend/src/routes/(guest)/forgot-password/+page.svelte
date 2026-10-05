@@ -1,7 +1,7 @@
 <script lang="ts">
-  import ForgotPasswordForm from '$lib/components/forgot-password-form.svelte';
-  import Heading from '$lib/components/heading.svelte';
-  import { pageTitle } from '$lib/title';
+  import ForgotPasswordForm from '#lib/components/forgot-password-form.svelte';
+  import Heading from '#lib/components/heading.svelte';
+  import { pageTitle } from '#lib/title.js';
 </script>
 
 <svelte:head>

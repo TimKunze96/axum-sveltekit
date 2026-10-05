@@ -1,10 +1,10 @@
 <script lang="ts">
   import type { PageProps } from './$types';
-  import DeleteAccount from '$lib/components/delete-account.svelte';
-  import Heading from '$lib/components/heading.svelte';
-  import ProfileForm from '$lib/components/profile-form.svelte';
-  import SettingsLayout from '$lib/components/settings-layout.svelte';
-  import { pageTitle } from '$lib/title';
+  import DeleteAccount from '#lib/components/delete-account.svelte';
+  import Heading from '#lib/components/heading.svelte';
+  import ProfileForm from '#lib/components/profile-form.svelte';
+  import SettingsLayout from '#lib/components/settings-layout.svelte';
+  import { pageTitle } from '#lib/title.js';
 
   let { data }: PageProps = $props();
 </script>

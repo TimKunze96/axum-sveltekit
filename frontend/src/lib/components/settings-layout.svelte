@@ -3,10 +3,10 @@
   // the page's form.
   import type { Snippet } from 'svelte';
   import { page } from '$app/state';
-  import { isCurrentOrParentUrl } from '$lib/current-url';
-  import type { NavItem } from '$lib/types';
-  import { buttonVariants } from '$lib/components/ui/button';
-  import { Separator } from '$lib/components/ui/separator';
+  import { isCurrentOrParentUrl } from '#lib/current-url.js';
+  import type { NavItem } from '#lib/types.js';
+  import { buttonVariants } from '#lib/components/ui/button/index.js';
+  import { Separator } from '#lib/components/ui/separator/index.js';
   import Heading from './heading.svelte';
 
   let { children }: { children: Snippet } = $props();

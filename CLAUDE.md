@@ -66,7 +66,7 @@ Never point the browser at Axum's port directly.
   them (`User` in `src/auth/user.rs`, the request bodies in
   `src/server/auth.rs`, the envelopes in `src/server/api.rs`). `cargo test` writes them to
   `frontend/src/lib/api/types`; `frontend/src/lib/api/index.ts` re-exports
-  each one by name (add a line per new type) and `$lib/types` adds the
+  each one by name (add a line per new type) and `#lib/types.js` adds the
   UI-only types. Never hand-write a mirror of a Rust type. `i64` fields
   that are JSON numbers carry `#[ts(type = "number")]`.
 - **The auth guard lives in `frontend/src/hooks.server.ts` only**:

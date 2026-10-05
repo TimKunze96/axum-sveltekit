@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PageProps } from './$types';
-  import { APP_NAME } from '$lib/app';
-  import Welcome from '$lib/components/welcome.svelte';
+  import { APP_NAME } from '#lib/app.js';
+  import Welcome from '#lib/components/welcome.svelte';
 
   let { data }: PageProps = $props();
 </script>

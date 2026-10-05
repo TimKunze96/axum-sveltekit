@@ -2,9 +2,9 @@
   // The sidebar: the logo, the platform links and the account menu. Add
   // a feature's pages to `platformNavItems`.
   import { LayoutGrid } from '@lucide/svelte';
-  import { HOME_PATH } from '$lib/login';
-  import type { NavItem, User } from '$lib/types';
-  import * as Sidebar from '$lib/components/ui/sidebar';
+  import { HOME_PATH } from '#lib/login.js';
+  import type { NavItem, User } from '#lib/types.js';
+  import * as Sidebar from '#lib/components/ui/sidebar/index.js';
   import AppLogo from './app-logo.svelte';
   import NavMain from './nav-main.svelte';
   import NavUser from './nav-user.svelte';

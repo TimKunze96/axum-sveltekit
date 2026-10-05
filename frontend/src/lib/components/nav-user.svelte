@@ -1,9 +1,9 @@
 <script lang="ts">
   // The sidebar footer row opening the account menu.
   import { ChevronsUpDown } from '@lucide/svelte';
-  import type { User } from '$lib/types';
-  import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-  import * as Sidebar from '$lib/components/ui/sidebar';
+  import type { User } from '#lib/types.js';
+  import * as DropdownMenu from '#lib/components/ui/dropdown-menu/index.js';
+  import * as Sidebar from '#lib/components/ui/sidebar/index.js';
   import UserInfo from './user-info.svelte';
   import UserMenuContent from './user-menu-content.svelte';
 

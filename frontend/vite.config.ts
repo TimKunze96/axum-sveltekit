@@ -1,4 +1,5 @@
-import { fileURLToPath } from 'node:url';
+import adapter from '@sveltejs/adapter-node';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
 import type { ProxyOptions } from 'vite';
@@ -29,26 +30,30 @@ const proxy: Record<string, ProxyOptions> = { [API_PREFIX]: { target: AXUM_DEV_U
 
 export default defineConfig({
   // One .env for the whole repository: the API reads it through
-  // src/config.rs, the frontend through $env (PUBLIC_APP_NAME, AXUM_URL).
+  // src/config.rs, the frontend through $app/env (src/env.ts).
   envDir: '..',
   server: { port: DEV_PORT, strictPort: true, proxy, watch },
-  plugins: [tailwindcss(), sveltekit()],
+  plugins: [
+    tailwindcss(),
+    sveltekit({
+      preprocess: vitePreprocess(),
+      compilerOptions: {
+        // Runes everywhere in the app; libraries under node_modules decide
+        // for themselves.
+        runes: ({ filename }) =>
+          filename.split(/[/\\]/).includes('node_modules') ? undefined : true,
+      },
+      adapter: adapter(),
+    }),
+  ],
   test: {
     expect: { requireAssertions: true },
     projects: [
       {
         extends: './vite.config.ts',
-        resolve: {
-          // Component tests render without SvelteKit's page bootstrap,
-          // which is where the runtime public env comes from.
-          alias: {
-            '$env/dynamic/public': fileURLToPath(
-              new URL('./src/lib/test/env-public.ts', import.meta.url),
-            ),
-          },
-        },
         test: {
           name: 'client',
+          setupFiles: ['src/lib/test/sveltekit-global.ts'],
           browser: {
             enabled: true,
             provider: playwright(),

@@ -3,7 +3,7 @@ import { createRawSnippet } from 'svelte';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { render } from 'vitest-browser-svelte';
 import AppLayout from './app-layout.svelte';
-import type { User } from '$lib/types';
+import type { User } from '#lib/types.js';
 
 const user: User = { id: 1, name: 'Ada Lovelace', email: 'ada@example.com', is_admin: false };
 

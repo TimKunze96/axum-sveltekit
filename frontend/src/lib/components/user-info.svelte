@@ -1,8 +1,8 @@
 <script lang="ts">
   // The account's initials, name and email in a menu row.
-  import { getInitials } from '$lib/initials';
-  import type { User } from '$lib/types';
-  import * as Avatar from '$lib/components/ui/avatar';
+  import { getInitials } from '#lib/initials.js';
+  import type { User } from '#lib/types.js';
+  import * as Avatar from '#lib/components/ui/avatar/index.js';
 
   let { user, showEmail = false }: { user: User; showEmail?: boolean } = $props();
 </script>

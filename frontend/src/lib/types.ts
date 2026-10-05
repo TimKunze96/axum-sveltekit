@@ -3,7 +3,7 @@
 // and adds the UI-only types.
 import type { Component } from 'svelte';
 
-export type * from '$lib/api';
+export type * from '#lib/api/index.js';
 
 export type Appearance = 'light' | 'dark' | 'system';
 export type ResolvedAppearance = 'light' | 'dark';

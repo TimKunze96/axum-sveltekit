@@ -1,8 +1,8 @@
 <script lang="ts">
-  import AppearanceTabs from '$lib/components/appearance-tabs.svelte';
-  import Heading from '$lib/components/heading.svelte';
-  import SettingsLayout from '$lib/components/settings-layout.svelte';
-  import { pageTitle } from '$lib/title';
+  import AppearanceTabs from '#lib/components/appearance-tabs.svelte';
+  import Heading from '#lib/components/heading.svelte';
+  import SettingsLayout from '#lib/components/settings-layout.svelte';
+  import { pageTitle } from '#lib/title.js';
 </script>
 
 <svelte:head>

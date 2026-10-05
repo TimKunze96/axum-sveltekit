@@ -50,8 +50,6 @@ services:
   frontend:
     build: !reset null
     image: ${IMAGE_NAMESPACE:-ghcr.io/example/starter}/frontend:${IMAGE_TAG:-latest}
-    environment:
-      ORIGIN: ${APP_URL}
 
   proxy:
     environment:

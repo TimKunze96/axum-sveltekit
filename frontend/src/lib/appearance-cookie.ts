@@ -1,6 +1,6 @@
 // The appearance choice as the server sees it (no runes here: the
 // server hooks import this too).
-import type { Appearance } from '$lib/types';
+import type { Appearance } from '#lib/types.js';
 
 export const APPEARANCE_COOKIE = 'appearance';
 

@@ -1,9 +1,9 @@
 <script lang="ts">
   // The "Platform" group of the sidebar.
   import { page } from '$app/state';
-  import { isCurrentUrl } from '$lib/current-url';
-  import type { NavItem } from '$lib/types';
-  import * as Sidebar from '$lib/components/ui/sidebar';
+  import { isCurrentUrl } from '#lib/current-url.js';
+  import type { NavItem } from '#lib/types.js';
+  import * as Sidebar from '#lib/components/ui/sidebar/index.js';
 
   let { items }: { items: NavItem[] } = $props();
 </script>

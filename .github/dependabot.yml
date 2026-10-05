@@ -3,7 +3,7 @@ updates:
   - package-ecosystem: cargo
     directory: "/"
     schedule:
-      interval: weekly
+      interval: monthly
     open-pull-requests-limit: 10
     groups:
       rust-dependencies:
@@ -13,7 +13,7 @@ updates:
   - package-ecosystem: npm
     directory: "/frontend"
     schedule:
-      interval: weekly
+      interval: monthly
     open-pull-requests-limit: 10
     groups:
       # The vitest family moves in lockstep; a major bump of one alone
@@ -27,14 +27,14 @@ updates:
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: weekly
+      interval: monthly
 
   - package-ecosystem: docker
     directory: "/"
     schedule:
-      interval: weekly
+      interval: monthly
 
   - package-ecosystem: docker
     directory: "/frontend"
     schedule:
-      interval: weekly
+      interval: monthly

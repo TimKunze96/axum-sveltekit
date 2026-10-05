@@ -1,5 +1,5 @@
 import type { LayoutServerLoad } from './$types';
-import { FLASH_COOKIE, parseFlash } from '$lib/flash';
+import { FLASH_COOKIE, parseFlash } from '#lib/flash.js';
 
 /** The shadcn sidebar's own cookie. */
 const SIDEBAR_COOKIE = 'sidebar_state';

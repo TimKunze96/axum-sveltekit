@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Heading from '$lib/components/heading.svelte';
-  import RegisterForm from '$lib/components/register-form.svelte';
-  import { pageTitle } from '$lib/title';
+  import Heading from '#lib/components/heading.svelte';
+  import RegisterForm from '#lib/components/register-form.svelte';
+  import { pageTitle } from '#lib/title.js';
 </script>
 
 <svelte:head>

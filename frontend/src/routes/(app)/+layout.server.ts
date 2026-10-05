@@ -1,5 +1,5 @@
 import type { LayoutServerLoad } from './$types';
-import type { User } from '$lib/types';
+import type { User } from '#lib/types.js';
 
 // The guard lives in hooks.server.ts: a guest never reaches this load.
 // This only narrows the type for the pages of the shell. Every page

@@ -1,6 +1,6 @@
-import type { Notification } from '$lib/api';
+import type { Notification } from '#lib/api/index.js';
 
-export { FLASH_COOKIE } from '$lib/app';
+export { FLASH_COOKIE } from '#lib/app.js';
 
 /**
  * Decodes the flash cookie's percent-encoded JSON. Anything malformed

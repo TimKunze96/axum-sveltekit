@@ -1,7 +1,7 @@
 <script lang="ts">
   // The trail in the app header; the last crumb is the current page.
-  import type { BreadcrumbItem } from '$lib/types';
-  import * as Breadcrumb from '$lib/components/ui/breadcrumb';
+  import type { BreadcrumbItem } from '#lib/types.js';
+  import * as Breadcrumb from '#lib/components/ui/breadcrumb/index.js';
 
   let { breadcrumbs }: { breadcrumbs: BreadcrumbItem[] } = $props();
 </script>

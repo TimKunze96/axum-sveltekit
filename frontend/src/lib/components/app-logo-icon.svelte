@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { HTMLImgAttributes } from 'svelte/elements';
-  import { APP_NAME } from '$lib/app';
+  import { APP_NAME } from '#lib/app.js';
 
   let { class: className, ...rest }: HTMLImgAttributes = $props();
 </script>

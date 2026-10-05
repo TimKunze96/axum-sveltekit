@@ -2,8 +2,8 @@
 // the browser: the API answers a fetch client with `{redirect}` plus the
 // flash cookie, or a 422 in the validation shape (see src/server/api.rs
 // in the Rust crate).
-import { goto, invalidateAll } from '$app/navigation';
-import type { RedirectAnswer, ValidationErrors } from '$lib/api';
+import { goto, refreshAll } from '$app/navigation';
+import type { RedirectAnswer, ValidationErrors } from '#lib/api/index.js';
 
 export interface Failure {
   ok: false;
@@ -67,8 +67,8 @@ export async function submit(
 export async function follow(outcome: Success): Promise<void> {
   const target = new URL(outcome.redirect, location.origin);
   if (target.pathname === location.pathname && target.search === location.search) {
-    await invalidateAll();
+    await refreshAll();
   } else {
-    await goto(target.pathname + target.search, { invalidateAll: true });
+    await goto(target.pathname + target.search, { refreshAll: true });
   }
 }

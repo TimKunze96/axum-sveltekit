@@ -1,8 +1,8 @@
 // The light/dark/system choice lives in localStorage for the browser and
 // in the `appearance` cookie for the server render, and toggles the
 // `dark` class on the document.
-import { APPEARANCE_COOKIE, isAppearance } from '$lib/appearance-cookie';
-import type { Appearance, ResolvedAppearance } from '$lib/types';
+import { APPEARANCE_COOKIE, isAppearance } from '#lib/appearance-cookie.js';
+import type { Appearance, ResolvedAppearance } from '#lib/types.js';
 
 export { APPEARANCE_COOKIE, isAppearance };
 export const APPEARANCE_STORAGE_KEY = 'appearance';
